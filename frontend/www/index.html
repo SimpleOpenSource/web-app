@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>htmx with Free API</title>
+</head>
+<body>
+    <h1>htmx with Free API</h1>
+
+    <div id="albumContainer">
+        <button id="getAlbum">Get an Album</button>
+        <div id="album">
+            <p id="album-id"></p>
+            <p id="album-title"></p>
+            <p id="album-artist"></p>
+            <p id="album-price"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('getAlbum').addEventListener('click', function() {
+            fetch('/api/albums')
+                .then(response => response.json())
+                .then(data => {
+                    const album = data[Math.floor(Math.random() * data.length)];
+                    document.getElementById('album-id').textContent = `ID: ${album.id}`;
+                    document.getElementById('album-title').textContent = `Title: ${album.title}`;
+                    document.getElementById('album-artist').textContent = `Artist: ${album.artist}`;
+                    document.getElementById('album-price').textContent = `Price: $${album.price}`;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
